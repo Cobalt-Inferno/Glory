@@ -34,8 +34,8 @@ manualinstall() {
 }
 installdotfile() {
     mkdir "$3"
-    git clone "https://github.com/$1/$2" "$repodir/$1/$2"
-    cd "$repodir/$1/$2"
+    git clone "https://github.com/$1/$2" "/tmp/repo/$1/$2"
+    cd "/tmp/repo/$1/$2"
     mv * "$3"
 }
 makeinstall() {
@@ -85,4 +85,37 @@ installdotfile kavulox picom ~/.config/picom
 ninja "https://github.com/kavulox/picom-fork"
 
 
+
+read -r -n 1 -p $'\nThe full installation of software is complete, and we would like to offer the chance to install some extra homebrewed tools :) YES (y) DONE (d) ~> ' _cont
+if [ "$_cont" = "y" ]; then
+  echo $'\n'
+  mkdir ~/.zsh
+  read -r -n 1 -p $'\nInstall ArtixLabs deer zsh package manager? YES (y) NO (n) ~> ' _container
+  if [ "$_container" = "y" ]; then
+    echo $'\n'
+    git clone https://github.com/ArtixLabs/deer "/tmp/repo/deer"
+    cp "/tmp/repo/deer/deer.zsh" ~/.zsh
+    echo "source ~/.zsh/deer.zsh" >> ~/.zshrc
+  fi
+  read -r -n 1 -p $'\nInstall kavulox kavpass? YES (y) NO (n) ~> ' _container
+  if [ "$_container" = "y" ]; then
+    echo $'\n'
+    git clone https://github.com/kavulox/kavpass "/tmp/repo/kavpass"
+    cd "/tmp/repo/kavpass" || return
+    make
+    sudo make install
+  fi
+  read -r -n 1 -p $'\nInstall kavulox neovim configuration? YES (y) NO (n) ~> ' _container
+  if [ "$_container" = "y" ]; then
+    echo $'\n'
+    git clone https://github.com/ArtixLabs/deer "$HOME/.config/nvim"
+  fi
+  read -r -n 1 -p $'\nInstall ArtixLabs deer zsh package manager? YES (y) NO (n) ~> ' _container
+  if [ "$_container" = "y" ]; then
+    echo $'\n'
+    git clone https://github.com/ArtixLabs/deer "/tmp/repo/deer"
+    cp "/tmp/repo/deer/deer.zsh" ~/.zsh
+    echo "source ~/.zsh/deer.zsh" >> ~/.zshrc
+  fi
+fi
 
