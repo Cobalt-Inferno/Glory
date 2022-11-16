@@ -39,12 +39,14 @@ installdotfile() {
     mv * "$3"
 }
 makeinstall() {
+    _info CLONING "$1"
     git clone "$1" "/tmp/repo/$(snip $1)"
     cd "/tmp/repo/$(snip $1)"
+    _info INSTALLING "$1"
     sudo make clean install
 }
 
-ninja() {
+_ninja() {
   _info CLONING "$1"
   git clone "$1" "/tmp/repo/$(snip $1)"
   cd "/tmp/repo/$(snip $1)"
@@ -82,8 +84,15 @@ makeinstall https://github.com/kavulox/dwmblocks
 installdotfile kavulox picom ~/.config/picom
 
 #
-ninja "https://github.com/kavulox/picom-fork"
+_info CLONING "https://github.com/kavulox/picom-fork"
+git clone "https://github.com/kavulox/picom-fork" "/tmp/repo/picom-fork"
+_info INSTALLING "https://github.com/kavulox/picom-fork"
 
+cd "/tmp/repo/picom-fork"
+git submodule update --init --recursive
+meson --buildtype=release . build
+ninja -C build
+sudo ninja -C build install
 
 
 read -r -n 1 -p $'\nThe full installation of software is complete, and we would like to offer the chance to install some extra homebrewed tools :) YES (y) DONE (d) ~> ' _cont
