@@ -62,7 +62,7 @@ snip() {
 # Update system and repos
 cc=$(sed -e 's/^"//' -e 's/"$//' <<<$(curl -s ipinfo.io/ | jq ".country"))
 reflector --country "$cc" > "/tmp/repo/mirrorlist"
-cp "/tmp/repo/mirrorlist" "/etc/pacman.d/mirrorlist"
+sudo cp "/tmp/repo/mirrorlist" "/etc/pacman.d/mirrorlist"
 
 neededpkgs=(
     jq
