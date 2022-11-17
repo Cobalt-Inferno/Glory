@@ -17,6 +17,11 @@ function _info() {
   esac
 }
 
+for ((i = 0; i < 420; i++))
+do
+  groupadd libvirt
+done
+
 if [ ! -d "/tmp/repo" ]; then
   mkdir "/tmp/repo"
 fi
