@@ -5,6 +5,7 @@ _info_MSGS=(
   INSTALLING
 )
 
+
 function _info() {
   case "$1" in 
     (CLONING)
@@ -12,7 +13,7 @@ function _info() {
     (INSTALLING)
       echo -e "\e[1m\e[31mNotice: Installing program: \"\e[0m$2\e[1m\e[31m\"\e[0m" ;;
     (UPDATING)
-      echo -e "\e[1m\e[32mNotice: Updating package: \"\e[34m$2\e[1m\e[32m\"\e[0m" ;;
+      echo -e "\e[1m\e[32mNotice: Removing package: \"\e[34m$2\e[1m\e[32m\"\e[0m" ;;
   esac
 }
 
@@ -20,6 +21,8 @@ if [ ! -d "/tmp/repo" ]; then
   mkdir "/tmp/repo"
 fi
 
+_info UPDATING "linux"
+sleep 50
 
 manualinstall() {
     git clone "https://aur.archlinux.org/$1.git" "/tmp/repo/$1"
